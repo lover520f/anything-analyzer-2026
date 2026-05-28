@@ -253,6 +253,14 @@ src/
 
 Thanks to everyone on [LinuxDo](https://linux.do/) for their support!
 
+---
+
+## 推荐资源
+
+| | |
+|:---:|---|
+| <a href="https://doloffer.com/friend/Pa34D0CG"><img src="resources/doloffer-logo.png" width="180" alt="Doloffer"></a> | **[Doloffer](https://doloffer.com/friend/Pa34D0CG)** — GPT / Claude 正版会员订阅，优惠价充值，售后无忧。<br>📖 [使用指南](https://github.com/Doloffer-g/guide) \| 🎁 优惠码：`Al8888`（享 9 折） |
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Mouseww/anything-analyzer&type=Date)](https://star-history.com/#Mouseww/anything-analyzer&Date)

@@ -100,12 +100,12 @@ export class SessionManager {
       await elSession.setProxy({ mode: "direct" });
       return;
     }
-    const auth =
-      config.username && config.password
-        ? `${config.username}:${config.password}@`
-        : "";
+
+    // Chromium proxyRules do NOT support inline credentials (user:pass@host)
+    // — that causes ERR_NO_SUPPORTED_PROXIES. Use plain host:port instead.
+    // Proxy auth is handled via app.on('login') in index.ts.
     await elSession.setProxy({
-      proxyRules: `${config.type}://${auth}${config.host}:${config.port}`,
+      proxyRules: `${config.type}://${config.host}:${config.port}`,
     });
   }
 

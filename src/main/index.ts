@@ -107,6 +107,21 @@ app.whenReady().then(async () => {
     );
   }
 
+  // Handle proxy authentication challenges globally.
+  // Chromium proxyRules cannot carry credentials, so we respond to 407 via this event.
+  app.on("login", (event, _webContents, _request, authInfo, callback) => {
+    if (authInfo.isProxy) {
+      const cfg = loadProxyConfig();
+      if (cfg && cfg.username && cfg.password) {
+        event.preventDefault();
+        callback(cfg.username, cfg.password);
+        return;
+      }
+    }
+    // Non-proxy auth or no credentials — let default behavior proceed
+    callback();
+  });
+
   // Initialize auto-updater
   const updater = new Updater();
   const mainWin = windowManager.getMainWindow();

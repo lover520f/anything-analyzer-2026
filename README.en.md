@@ -248,6 +248,13 @@ This project **does not** include the following capabilities:
 
 Thanks to everyone on [LinuxDo](https://linux.do/) for their support!
 
+---
+
+## Recommended Resources
+
+|:---:|---|
+| <a href="https://doloffer.com/friend/Pa34D0CG"><img src="resources/doloffer-logo.png" width="180" alt="Doloffer"></a> | **[Doloffer](https://doloffer.com/friend/Pa34D0CG)** — GPT / Claude subscriptions at discounted prices. Genuine licenses, hassle-free support.<br>📖 [Guide](https://github.com/Doloffer-g/guide) \| 🎁 Promo code: `Al8888` (10% off) |
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Mouseww/anything-analyzer&type=Date)](https://star-history.com/#Mouseww/anything-analyzer&Date)
