@@ -16,14 +16,15 @@ describe("macOS 发布工作流", () => {
     expect(workflow).toContain("grep -q 'x64\\.zip' dist/latest-mac.yml");
   });
 
-  it("应该强制校验 macOS 代码签名 secrets", () => {
+  it("应该仅在 macOS 代码签名 secrets 存在时注入并校验签名", () => {
     const workflow = readWorkspaceFile(".github/workflows/build.yml");
 
-    expect(workflow).toContain("${{ secrets.CSC_LINK }}");
-    expect(workflow).toContain("${{ secrets.CSC_KEY_PASSWORD }}");
-    expect(workflow).toContain("${{ secrets.APPLE_ID }}");
-    expect(workflow).toContain("${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}");
-    expect(workflow).toContain("${{ secrets.APPLE_TEAM_ID }}");
+    expect(workflow).toContain("SIGNING_CSC_LINK: ${{ secrets.CSC_LINK }}");
+    expect(workflow).toContain('if [ -n "$SIGNING_CSC_LINK" ]; then');
+    expect(workflow).toContain('echo "CSC_LINK=$SIGNING_CSC_LINK" >> "$GITHUB_ENV"');
+    expect(workflow).toContain('echo "MAC_SIGNING_ENABLED=true" >> "$GITHUB_ENV"');
+    expect(workflow).toContain('echo "MAC_SIGNING_ENABLED=false" >> "$GITHUB_ENV"');
+    expect(workflow).toContain('if [ "$MAC_SIGNING_ENABLED" != "true" ]; then');
     expect(workflow).toContain("codesign --verify --deep --strict --verbose=2");
   });
 
