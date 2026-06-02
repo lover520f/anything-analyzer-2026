@@ -652,6 +652,33 @@ describe("LLMRouter", () => {
       ).rejects.toThrow("function_call arguments must be a valid JSON object");
     });
 
+    it("should reject Responses API function calls with empty arguments", async () => {
+      const config: LLMProviderConfig = { ...baseConfig, apiType: "responses" };
+      fetchSpy.mockResolvedValueOnce(
+        createJSONResponse({
+          output: [
+            {
+              type: "function_call",
+              id: "fc-1",
+              call_id: "call-1",
+              name: "lookup",
+              arguments: "",
+            },
+          ],
+        }),
+      );
+
+      const router = new LLMRouter(config);
+
+      await expect(
+        router.completeWithTools(
+          [{ role: "user", content: "test" }],
+          [{ name: "lookup", description: "Lookup", inputSchema: { type: "object" } }],
+          async () => "unused",
+        ),
+      ).rejects.toThrow("function_call arguments must be a valid JSON object");
+    });
+
     it("should validate Responses API function calls before streaming tool status", async () => {
       const config: LLMProviderConfig = { ...baseConfig, apiType: "responses" };
       const chunks: string[] = [];
@@ -819,6 +846,37 @@ describe("LLMRouter", () => {
                     id: "call-1",
                     type: "function",
                     function: { name: "lookup", arguments: "{" },
+                  },
+                ],
+              },
+            },
+          ],
+        }),
+      );
+
+      const router = new LLMRouter(baseConfig);
+
+      await expect(
+        router.completeWithTools(
+          [{ role: "user", content: "test" }],
+          [{ name: "lookup", description: "Lookup", inputSchema: { type: "object" } }],
+          async () => "unused",
+        ),
+      ).rejects.toThrow("tool_call arguments must be a valid JSON object");
+    });
+
+    it("should reject OpenAI tool calls with empty arguments", async () => {
+      fetchSpy.mockResolvedValueOnce(
+        createJSONResponse({
+          choices: [
+            {
+              message: {
+                content: null,
+                tool_calls: [
+                  {
+                    id: "call-1",
+                    type: "function",
+                    function: { name: "lookup", arguments: "" },
                   },
                 ],
               },

@@ -92,7 +92,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function readToolArguments(argumentsJson: string, fieldName: string): Record<string, unknown> {
   try {
-    const args = JSON.parse(argumentsJson || "{}");
+    const args = JSON.parse(argumentsJson);
     if (isRecord(args)) return args;
   } catch {
     // Fall through to the common protocol error below.
